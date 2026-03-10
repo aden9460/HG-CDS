@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+venv/
+env/
+.env/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# PyTorch checkpoints and logs
+*.pth
+*.pth.tar
+*.ckpt
+logs/
+results/
+output/
+run_dir/
+
+# TensorBoard
+runs/
+*.tfevents.*
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# WandB
+wandb/
