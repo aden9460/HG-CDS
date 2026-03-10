@@ -1,5 +1,7 @@
 # Enhancing Binary Neural Networks with Hybrid-Granularity Contrastive Deep Supervision
 
+> **Official implementation** of the paper submitted to *The Visual Computer*.
+
 This repository contains the official implementation of **HG-CDS** (**H**ybrid-**G**ranularity **C**ontrastive **D**eep **S**upervision), a training framework that applies contrastive supervision at multiple feature granularities to improve Binary Neural Network (BNN) training.
 
 HG-CDS is evaluated on two architectures:
@@ -182,6 +184,46 @@ DATA_DIR=/path/to/imagenet bash scripts/run_binaryvit-small-patch4-224.sh
 | `--avg-res5` | — | Enable 5×5 average-pooling residual at FFN |
 | `--use-multiscale-cds` | — | Enable multi-scale region-token CDS |
 
+---
+
+## Project Structure
+
+```
+HG-CDS/
+├── CNN/                          # Binary ResNet implementation
+│   ├── distill.py                # Main training script (CDS + KD)
+│   ├── main_cifar.py             # Training script (CDS only, no KD)
+│   ├── main_imagenet.py          # ImageNet training script
+│   ├── models_cifar/
+│   │   ├── resnet.py             # Binary ResNet-20 for CIFAR
+│   │   └── resnet2.py            # Binary ResNet-18/34/50 for CIFAR
+│   ├── models_imagenet/
+│   │   └── loss.py               # SupConLoss, distillation, CrossEntropy
+│   ├── modules/
+│   │   └── binarized_modules.py  # BinarizeConv2d, BinarizeLinear
+│   ├── dataset/                  # Data loading utilities
+│   ├── utils/                    # Logging, checkpointing, options
+│   ├── run_cifar.sh              # CIFAR-10 training script
+│   └── run_imagenet.sh           # ImageNet training script
+│
+└── DeiT/                         # BinaryViT implementation
+    ├── main.py                   # Main training script
+    ├── models.py                 # Model factory and argument parsing
+    ├── losses.py                 # DistributionLoss (KL divergence KD)
+    ├── engine.py                 # Training/evaluation loop
+    ├── datasets.py               # Dataset loading
+    ├── transformer/
+    │   ├── cds_modules.py        # ViTAuxiliaryClassifier, SepConv, ViTSepConv
+    │   ├── modeling_vit_extra_res_pyramid.py  # Pyramidal BinaryViT (main model)
+    │   ├── modeling_vit_extra_res.py          # BinaryViT with extra residuals
+    │   ├── modeling_vit.py                    # Standard ViT backbone
+    │   ├── multi_scale_tokens.py              # Multi-scale token extraction
+    │   └── utils_quant.py                     # Quantization utilities
+    ├── cds_utils/
+    │   └── sup_con_loss.py       # SupConLoss, TwoCropTransform
+    ├── configs/                  # Model configuration files
+    └── scripts/                  # Training shell scripts
+```
 
 ---
 
@@ -202,4 +244,20 @@ Standard ImageNet directory structure expected:
 └── val/
     ├── n01440764/
     └── ...
+```
+
+---
+
+## Citation
+
+If you find this work useful, please consider citing our paper:
+
+```bibtex
+@article{Zefang2026hgcds,
+  title={Enhancing Binary Neural Networks with Hybrid-Granularity Contrastive Deep Supervision},
+  author={Zefang Wang and Yingqing Yang and Yuhang Dong and Guangyuan Lu and Guanzhong Tian},
+  journal={The Visual Computer},
+  year={2026},
+  note={Under Review}
+}
 ```
